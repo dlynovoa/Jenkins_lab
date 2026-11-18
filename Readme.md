@@ -108,7 +108,7 @@ Una vez disparado el pipeline (manualmente o por cambio en Git), Jenkins ejecuta
    ```
 3. Esperar el ciclo de sondeo de **Poll SCM** (máximo 2 minutos) y recargar `http://192.168.33.20:8081` para verificar la actualización automática sin intervención manual en el servidor.
 
-![Aplicación desplegada en puerto 8081](scripts/images/02-app-desplegada.png)
+![Aplicación desplegada en puerto 8081](scripts/images/03-app-desplegada.png)
 
 ### Prueba 2: Bloqueo preventivo ante código defectuoso (Quality Gate)
 1. Editar `app/index.html` eliminando la etiqueta principal `<h1>` y realizar `git push origin main`.
