@@ -90,6 +90,10 @@ vagrant destroy -f   # Elimina por completo la VM y su disco virtual
 
 ![Vista de etapas del Pipeline en Jenkins](scripts/images/01-pipeline-stages.png)
 
+Una vez disparado el pipeline (manualmente o por cambio en Git), Jenkins ejecuta secuencialmente cada etapa y limpia imágenes huérfanas al finalizar:
+
+![Ejecución exitosa de todas las etapas en Jenkins](scripts/images/02-ejecucion-exitosa-stages.png)
+
 ---
 
 ## 5. Pruebas de Verificación y Quality Gates
@@ -112,6 +116,8 @@ vagrant destroy -f   # Elimina por completo la VM y su disco virtual
 3. Al no encontrar `<h1>`, el script devolverá `exit 1`, marcando la etapa **Test** en rojo y abortando **Build & Deploy**.
 4. Al recargar `http://192.168.33.20:8081`, la versión anterior permanece activa y sin caídas.
 
+![Bloqueo del despliegue por fallo en Quality Gate](scripts/images/04-quality-gate-fallo.png)
+
 ### Prueba 3: Verificación por línea de comandos
 Dentro de la máquina virtual (`vagrant ssh`), comprobar el contenedor activo y la respuesta HTTP:
 
@@ -119,3 +125,4 @@ Dentro de la máquina virtual (`vagrant ssh`), comprobar el contenedor activo y 
 docker ps
 curl -I http://localhost:8081
 ```
+![Verificación por línea de comandos](scripts/images/05-verificacion-consola.png)
