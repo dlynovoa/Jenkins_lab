@@ -1,10 +1,9 @@
 services:
   web:
-    image: nginx:1.27-alpine
+    build: .
+    image: jenkins-lab:latest
     ports:
-      - "${HOST_PORT:-8080}:80"
-    volumes:
-      - ./app:/usr/share/nginx/html:ro
+      - "${HOST_PORT:-8081}:80"
     restart: unless-stopped
 
 networks:

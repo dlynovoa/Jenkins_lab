@@ -2,51 +2,50 @@ pipeline {
     agent any
 
     environment {
-        APP_NAME = 'Jenkins-Lab-USI'
-        PORT     = '8080'
+        APP_NAME  = 'Jenkins-Lab'
+        HOST_PORT = '8081'
     }
 
     stages {
         stage('Checkout & Setup') {
             steps {
                 echo "=== Preparando entorno para ${env.APP_NAME} ==="
-                sh 'ls -la'
-                sh 'chmod +x scripts/*.sh test/*.sh 2>/dev/null || true'
+                sh 'chmod +x test/*.sh 2>/dev/null || true'
             }
         }
 
         stage('Test') {
             steps {
-                echo '=== Ejecutando Etapa de Pruebas ==='
-                sh 'if [ -f test/run-tests.sh ]; then ./test/run-tests.sh; else echo "Pruebas unitarias completadas con exito"; fi'
+                echo '=== Ejecutando Pruebas de Integridad ==='
+                sh './test/run-tests.sh'
             }
         }
 
         stage('Build & Deploy') {
             steps {
-                echo "=== Desplegando contenedor con Docker Compose en el puerto ${env.PORT} ==="
-                sh 'docker compose up -d'
+                echo "=== Construyendo imagen y desplegando en puerto ${env.HOST_PORT} ==="
+                sh 'docker compose up -d --build'
             }
         }
 
         stage('Health Check') {
             steps {
-                echo '=== Verificando disponibilidad de la aplicacion ==='
+                echo '=== Verificando disponibilidad HTTP ==='
                 sh 'sleep 2'
-                sh 'curl -I http://localhost:8080 || echo "Aplicacion publicada correctamente"'
+                sh "curl -f -I http://localhost:${env.HOST_PORT}"
             }
         }
     }
 
     post {
         always {
-            echo '=== Finalizando ejecucion del Pipeline ==='
+            sh 'docker image prune -f || true'
         }
         success {
-            echo '¡Despliegue exitoso! La aplicacion esta disponible en http://localhost:8080'
+            echo "¡Despliegue exitoso! Disponible en http://192.168.33.20:${env.HOST_PORT}"
         }
         failure {
-            echo 'El pipeline ha fallado. Revisa la consola de Jenkins.'
+            echo 'El pipeline fallo. Se aborto el despliegue.'
         }
     }
 }
