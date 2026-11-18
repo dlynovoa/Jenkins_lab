@@ -8,7 +8,7 @@ Implementación de un flujo automatizado de Integración y Entrega Continua (**C
 
 El siguiente diagrama muestra en qué etapa interviene cada archivo del repositorio desde que se realiza un cambio local hasta su publicación en el contenedor:
 
-![Flujo de Integración y Entrega Continua](docs/images/00-flujo-cicd.png)
+![Flujo de Integración y Entrega Continua](scripts/images/00-flujo-cicd.png)
 
 ---
 
